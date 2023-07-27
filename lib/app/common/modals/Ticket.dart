@@ -1,7 +1,10 @@
 class Ticket {
-  final String title;
-  final String personName;
-  final String time;
+  final String ticketId;
+  final String amountPaid;
+  final int numberOfTickets;
+  final String fullName;
+  final String scannedDate;
+  final String scannedTime;
 
-  Ticket({required this.title, required this.personName, required this.time});
+  Ticket({required this.ticketId, required this.amountPaid, required this.numberOfTickets, required this.fullName, required this.scannedDate, required this.scannedTime});
 }
