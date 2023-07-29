@@ -3,10 +3,12 @@ import 'package:scan_app/app/common/utils/initializer.dart';
 import 'package:scan_app/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
+import 'app/modules/scanner/controllers/scanner_controller.dart';
 import 'app/modules/widgets/base_widget.dart';
 
 void main() {
   Initializer.init(() {
+    Get.put(QRScannerController());
     runApp(const MyApp());
   });
 }

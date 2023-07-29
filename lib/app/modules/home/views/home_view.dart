@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scan_app/app/common/modals/Ticket.dart';
 import 'package:scan_app/app/common/utils/exports.dart';
 import 'package:scan_app/app/modules/home/controllers/home_controller.dart';
+import 'package:scan_app/app/modules/scanner/views/scanner_view.dart';
 import 'package:scan_app/app/modules/widgets/custom_appbar_widget.dart';
 import 'package:get/get.dart';
 
@@ -168,6 +169,12 @@ class HomeView extends GetView<HomeController> {
         onPressed: () {
           // Add your scanning logic here
           // This will be triggered when the button is pressed
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => ScanQrPage(),
+            isScrollControlled: true
+          );
+           
         },
         child: const Icon(Icons.qr_code),
       ),
