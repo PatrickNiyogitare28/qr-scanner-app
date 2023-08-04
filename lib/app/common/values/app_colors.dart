@@ -8,4 +8,6 @@ abstract class AppColors {
   static const Color amaranth = Color(0xFFea435d);
   static const Color black = Colors.black;
   static const Color white = Colors.white;
+  static const Color lightSilver = Color.fromARGB(255, 200, 200, 200);
+
 }

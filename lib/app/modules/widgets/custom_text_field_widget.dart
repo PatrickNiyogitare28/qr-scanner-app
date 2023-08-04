@@ -57,6 +57,10 @@ class CustomTextFieldWidget extends StatelessWidget {
       color: AppColors.mineShaft,
       fontSize: Dimens.fontSize15,
     );
+     final border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(20), // Adjust the border radius as needed
+      borderSide: BorderSide(color: AppColors.lightSilver), // Set the border color here
+    );
 
     return TextFormField(
       onTap: onTap,
@@ -89,7 +93,8 @@ class CustomTextFieldWidget extends StatelessWidget {
         labelText: addHint
             ? null
             : ((controller?.text != null || !readOnly) ? labelText : null),
-        hintText: hintText,
+        // hintText: hintText,
+        labelStyle: const TextStyle(color: AppColors.lightSilver),
         prefixIconConstraints: BoxConstraints(
           maxHeight: 40.h,
           maxWidth: 40.w,

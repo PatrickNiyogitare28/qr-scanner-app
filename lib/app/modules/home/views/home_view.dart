@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:scan_app/app/common/modals/Ticket.dart';
-import 'package:scan_app/app/common/utils/exports.dart';
 import 'package:scan_app/app/modules/home/controllers/home_controller.dart';
 import 'package:scan_app/app/modules/scanner/views/scanner_view.dart';
 import 'package:scan_app/app/modules/widgets/custom_appbar_widget.dart';
 import 'package:get/get.dart';
+import 'package:scan_app/app/modules/widgets/search_input.dart';
+import 'package:scan_app/app/modules/widgets/ticket_info.dart';
 
 class Event {
   final String title;
@@ -14,6 +16,7 @@ class Event {
 }
 
 class HomeView extends GetView<HomeController> {
+  // bool isSearching = false;
   const HomeView({Key? key}) : super(key: key);
 
   @override
@@ -80,131 +83,76 @@ class HomeView extends GetView<HomeController> {
       // Add more dummy events here as needed
     ];
 
+    void _performSearch(String query) {
+      // Implement your search logic here
+    }
+
     return Scaffold(
       appBar: CustomAppbarWidget(
         addBackButton: false,
         title: 'Events',
         centerTitle: false,
       ),
-      body: ListView.builder(
-        itemCount: dummyEvents.length,
-        itemBuilder: (context, eventIndex) {
-          final event = dummyEvents[eventIndex];
-          return ExpansionTile(
-            title: Text(event.title),
-            children: event.tickets.asMap().entries.map((entry) {
-              final index = entry.key;
-              final ticket = entry.value;
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Custom greenish small circle on top
-                    if (index > 0) GrayBar(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GreenCircle(), // Custom greenish small circle
-                        // Remove the SizedBox to eliminate space
-                        const SizedBox(
-                          width: 24,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              ticket.fullName,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Ticket Number/ID: ${ticket.ticketId}',
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              'Price: ${ticket.amountPaid}',
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                        // Add flexible space to push the left and middle columns together
-                        Expanded(child: Container()),
-                        // Right column with date and time
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              ticket.scannedDate,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              ticket.scannedTime,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+      body: Column(children: [
+        Padding(padding: const EdgeInsets.all(16.0), child: SearchInput()),
+        Expanded(
+          child: ListView.builder(
+            itemCount: dummyEvents.length,
+            itemBuilder: (context, eventIndex) {
+              final event = dummyEvents[eventIndex];
+              return Slidable(
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  dismissible: DismissiblePane(onDismissed: () {}),
+                  children: const [
+                    SlidableAction(
+                      onPressed: null,
+                      backgroundColor: Color(0xFF7BC043),
+                      foregroundColor: Colors.white,
+                      icon: Icons.archive,
+                      label: 'Archive',
                     ),
-                    const SizedBox(height: 8),
+                    SlidableAction(
+                      onPressed: null,
+                      backgroundColor: Color(0xFF0392CF),
+                      foregroundColor: Colors.white,
+                      icon: Icons.save,
+                      label: 'Save',
+                    ),
                   ],
                 ),
+                child: ExpansionTile(
+                  title: Text(event.title),
+                  children: event.tickets.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final ticket = entry.value;
+                    return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: TicketInfo(
+                            index: index,
+                            ticketId: ticket.ticketId,
+                            fullName: ticket.fullName,
+                            scannedDate: ticket.scannedDate,
+                            scannedTime: ticket.scannedTime,
+                            amountPaid: ticket.amountPaid));
+                  }).toList(),
+                ),
               );
-            }).toList(),
-          );
-        },
-      ),
+            },
+          ),
+        ),
+      ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Add your scanning logic here
           // This will be triggered when the button is pressed
           showModalBottomSheet(
-            context: context,
-            builder: (context) => ScanQrPage(),
-            isScrollControlled: true
-          );
-           
+              context: context,
+              builder: (context) => ScanQrPage(),
+              isScrollControlled: true);
         },
         child: const Icon(Icons.qr_code),
       ),
-    );
-  }
-}
-
-class GreenCircle extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 12,
-      height: 12,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors
-            .green, // You can change the color to your desired shade of green
-      ),
-    );
-  }
-}
-
-class GrayBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 2,
-      height: 50,
-      color: Colors
-          .grey[300], // You can change the color to your desired shade of gray
     );
   }
 }
