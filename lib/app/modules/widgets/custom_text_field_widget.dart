@@ -58,7 +58,7 @@ class CustomTextFieldWidget extends StatelessWidget {
       fontSize: Dimens.fontSize15,
     );
      final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(20), // Adjust the border radius as needed
+      borderRadius: BorderRadius.circular(30), // Adjust the border radius as needed
       borderSide: BorderSide(color: AppColors.lightSilver), // Set the border color here
     );
 

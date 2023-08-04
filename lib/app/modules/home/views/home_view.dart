@@ -7,6 +7,7 @@ import 'package:scan_app/app/modules/widgets/custom_appbar_widget.dart';
 import 'package:get/get.dart';
 import 'package:scan_app/app/modules/widgets/search_input.dart';
 import 'package:scan_app/app/modules/widgets/ticket_info.dart';
+import 'package:scan_app/app/routes/app_pages.dart';
 
 class Event {
   final String title;
@@ -122,7 +123,13 @@ class HomeView extends GetView<HomeController> {
                   ],
                 ),
                 child: ExpansionTile(
-                  title: Text(event.title),
+                  title: GestureDetector(
+                    onLongPress: (){
+                      Get.toNamed(Routes.EVENT,
+                       arguments: {'event': event}
+                      );
+                    },
+                    child: Text(event.title)),
                   children: event.tickets.asMap().entries.map((entry) {
                     final index = entry.key;
                     final ticket = entry.value;
