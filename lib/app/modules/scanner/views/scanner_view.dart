@@ -1,21 +1,10 @@
 import "package:flutter/material.dart";
-import "package:get/get.dart";
+import "package:fluttertoast/fluttertoast.dart";
+import "package:get/get_core/get_core.dart";
 import "package:qr_code_scanner/qr_code_scanner.dart";
-import "package:scan_app/app/modules/scanner/controllers/scanner_controller.dart";
-
-import "package:flutter/material.dart";
 import "package:get/get.dart";
-import "package:qr_code_scanner/qr_code_scanner.dart";
-import "package:scan_app/app/modules/scanner/controllers/scanner_controller.dart";
-
-import 'dart:developer';
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-
-
+import "package:scan_app/app/common/utils/exports.dart";
+import "package:scan_app/app/routes/app_pages.dart";
 
 class ScanQrPage extends StatefulWidget {
   @override
@@ -25,39 +14,43 @@ class ScanQrPage extends StatefulWidget {
 class _ScanQrPageState extends State<ScanQrPage> {
   Barcode? result;
   QRViewController? controller;
+  // GetxController homeController = HomeController as GetxController;
+
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  final List<dynamic> events = Storage.getValue("events");
 
   void _onQRViewCreated(QRViewController controller) {
     setState(() => this.controller = controller);
     controller.scannedDataStream.listen((scanData) {
-      setState(() => result = scanData);
+      setState(() {
+        result = scanData;
+        if (result != null) {
+          if (result!.code == "ABCD1234") {
+            Fluttertoast.showToast(
+                msg: "Success! Ticket is valid",
+                toastLength: Toast.LENGTH_LONG,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                webPosition: 'center');
+            Get.toNamed(Routes.EVENT, arguments: {'event': events[0]});
+          } else {
+            Fluttertoast.showToast(
+                msg: "Failed! Ticket expired or used ",
+                toastLength: Toast.LENGTH_LONG,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                webPosition: 'center');
+            //  Get.toNamed(Routes.EVENT, arguments: {
+            //    'event': events[0]
+            //  });// Close the bottom sheet
+          }
+        }
+      });
     });
-    controller.pauseCamera();
-    controller.resumeCamera();
-  }
-  // In order to get hot reload to work we need to pause the camera if the platform
-  // is android, or resume the camera if the platform is iOS.
-  @override
-  void reassemble() {
-    super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    } else if (Platform.isIOS) {
-      controller!.resumeCamera();
-    }
-  }
-
-  void readQr() async {
-    if (result != null) {
-      controller!.pauseCamera();
-      print(result!.code);
-      controller!.dispose();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    readQr();
     return Scaffold(
       body: QRView(
         key: qrKey,
@@ -79,4 +72,3 @@ class _ScanQrPageState extends State<ScanQrPage> {
     super.dispose();
   }
 }
-

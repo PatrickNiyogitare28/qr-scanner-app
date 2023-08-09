@@ -9,9 +9,6 @@ import 'api_helper.dart';
 class ApiHelperImpl extends GetConnect implements ApiHelper {
   @override
   void onInit() {
-    print("Hello there");
-    print(Constants.baseUrl);
-
     httpClient.baseUrl = Constants.baseUrl;
     httpClient.timeout = Constants.timeout;
 
