@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "353293206765",
+    "project_id": "bafana-app-test",
+    "storage_bucket": "bafana-app-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353293206765:android:69fa959495690a96c1f8e4",
+        "android_client_info": {
+          "package_name": "io.bafana.scanapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "353293206765-hiee21il4mfhqd6voiijcuasu3d49u99.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6tEbGqGxqLaZMHbD4JCtk8QficGS1SGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "353293206765-hiee21il4mfhqd6voiijcuasu3d49u99.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

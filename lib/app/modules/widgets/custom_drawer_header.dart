@@ -44,10 +44,10 @@ class CustomDrawerHeader extends StatelessWidget {
                           fontSize: Dimens.fontSize16,
                         ),
                       ),
-                      InkWell(
-                        onTap: homeController.onEditProfileClick,
-                        child: const Icon(Icons.edit),
-                      )
+                      // InkWell(
+                      //   onTap: homeController.onEditProfileClick,
+                      //   child: const Icon(Icons.edit),
+                      // )
                     ],
                   ),
                   SizedBox(height: 4.w),

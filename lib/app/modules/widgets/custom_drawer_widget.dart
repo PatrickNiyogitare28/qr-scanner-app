@@ -33,17 +33,17 @@ class CustomDrawerWidget extends StatelessWidget {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                  CustomListTileWidget(
-                    title: Strings.gallery,
-                    onTap: controller.onFaqsClick,
-                  ),
+                  // CustomListTileWidget(
+                  //   title: Strings.gallery,
+                  //   onTap: controller.onFaqsClick,
+                  // ),
                 ],
               ),
             ),
-            CustomListTileWidget(
-              title: Strings.logOut,
-              onTap: controller.onLogoutClick,
-            ),
+            // CustomListTileWidget(
+            //   title: Strings.logOut,
+            //   onTap: controller.onLogoutClick,
+            // ),
           ],
         ),
       ),

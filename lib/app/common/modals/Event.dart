@@ -1,28 +1,61 @@
-import 'package:scan_app/app/common/modals/Ticket.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
-  final String title;
-  final List<Ticket> tickets;
+  final String description;
+  final DateTime? eventDate;
+  final String eventStatus;
+  final bool firebaseSynced;
+  final int id;
+  final bool isEventPaid;
+  final String name;
+  final String? posterImgUrl;
+  final String slug;
+  final int userId;
+  final String venue;
 
-  Event({required this.title, required this.tickets});
+  Event({
+    required this.description,
+    required this.eventDate,
+    required this.eventStatus,
+    required this.firebaseSynced,
+    required this.id,
+    required this.isEventPaid,
+    required this.name,
+    required this.posterImgUrl,
+    required this.slug,
+    required this.userId,
+    required this.venue,
+  });
 
- factory Event.fromJson(Map<String, dynamic> json) {
-  final List<dynamic> ticketJsonList = json['tickets'];
-  final List<Ticket> ticketList = ticketJsonList.map((ticketJson) => Ticket.fromJson(ticketJson as Map<String, dynamic>)).toList();
-
-  return Event(
-    title: json['title'],
-    tickets: ticketList,
-  );
-}
-
+  factory Event.fromMap(Map<String, dynamic> map) {
+    return Event(
+      description: map['description'],
+      eventDate: (map['event_date'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      eventStatus: map['event_status'],
+      firebaseSynced: map['firebase_synced'],
+      id: map['id'],
+      isEventPaid: map['is_event_paid'],
+      name: map['name'],
+      posterImgUrl: map['poster_img_url'] as String?,
+      slug: map['slug'],
+      userId: map['user_id'],
+      venue: map['venue'],
+    );
+  }
 
   Map<String, dynamic> toJson() {
-    final List ticketJsonList = tickets.map((ticket) => ticket.toJson()).toList();
-
     return {
-      'title': title,
-      'tickets': ticketJsonList,
+      'description': description,
+      'eventDate': eventDate?.toUtc().toIso8601String(),
+      'eventStatus': eventStatus,
+      'firebaseSynced': firebaseSynced,
+      'id': id,
+      'isEventPaid': isEventPaid,
+      'name': name,
+      'posterImgUrl': posterImgUrl,
+      'slug': slug,
+      'userId': userId,
+      'venue': venue,
     };
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:scan_app/app/modules/home/controllers/home_controller.dart';
@@ -27,7 +28,9 @@ class HomeView extends GetView<HomeController> {
       body: Column(children: [
         Padding(padding: const EdgeInsets.all(16.0), child: SearchInput()),
         Expanded(
-          child: ListView.builder(
+          child: Obx(() {return controller.isLoading.value ? const Center(
+          child: CircularProgressIndicator(), // Show a loading indicator
+        ) :  ListView.builder(
             itemCount: controller.events.length,
             itemBuilder: (context, eventIndex) {
               final event = controller.events[eventIndex];
@@ -57,26 +60,27 @@ class HomeView extends GetView<HomeController> {
                       onLongPress: () {
                         Get.toNamed(Routes.EVENT, arguments: {'event': event});
                       },
-                      child: Text(event.title)),
-                  children: event.tickets.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final ticket = entry.value;
-                    return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: TicketInfo(
-                            index: index,
-                            ticketId: ticket.ticketId,
-                            fullName: ticket.fullName,
-                            scannedDate: ticket.scannedDate,
-                            scannedTime: ticket.scannedTime,
-                            amountPaid: ticket.amountPaid));
-                  }).toList(),
+                      child: Text(event.name)),
+                  // children: event.tickets.asMap().entries.map((entry) {
+                  //   final index = entry.key;
+                  //   final ticket = entry.value;
+                  //   return Padding(
+                  //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  //       child: TicketInfo(
+                  //           index: index,
+                  //           ticketId: ticket.ticketId,
+                  //           fullName: ticket.fullName,
+                  //           scannedDate: ticket.scannedDate,
+                  //           scannedTime: ticket.scannedTime,
+                  //           amountPaid: ticket.amountPaid));
+                  // }).toList(),
                 ),
               );
             },
-          ),
+          );}),
         ),
       ]),
+ 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Add your scanning logic here
@@ -91,3 +95,4 @@ class HomeView extends GetView<HomeController> {
     );
   }
 }
+

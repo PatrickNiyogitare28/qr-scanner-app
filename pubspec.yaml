@@ -44,6 +44,10 @@ dependencies:
   qr_code_scanner: ^1.0.1
   flutter_slidable: ^3.0.0
   fluttertoast: ^8.2.2
+  cloud_firestore: ^4.10.0
+  firebase_core: ^2.18.0
+  firebase_crashlytics: ^3.4.0
+  connectivity: ^3.0.6
 
 dev_dependencies:
   flutter_test:
