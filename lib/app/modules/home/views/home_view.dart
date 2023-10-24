@@ -26,14 +26,14 @@ class HomeView extends GetView<HomeController> {
         centerTitle: false,
       ),
       body: Column(children: [
-        Padding(padding: const EdgeInsets.all(16.0), child: SearchInput()),
+        Padding(padding: const EdgeInsets.all(16.0), child: SearchInput(onSearch: controller.searchQuery,)),
         Expanded(
           child: Obx(() {return controller.isLoading.value ? const Center(
           child: CircularProgressIndicator(), // Show a loading indicator
         ) :  ListView.builder(
-            itemCount: controller.events.length,
+            itemCount: controller.filteredEvents.length,
             itemBuilder: (context, eventIndex) {
-              final event = controller.events[eventIndex];
+              final event = controller.filteredEvents[eventIndex];
               return Slidable(
                 endActionPane: ActionPane(
                   motion: const ScrollMotion(),
@@ -60,20 +60,22 @@ class HomeView extends GetView<HomeController> {
                       onLongPress: () {
                         Get.toNamed(Routes.EVENT, arguments: {'event': event});
                       },
+                      onTap: (){
+                        controller.getTicketsByEventId(event.id);
+                      },
                       child: Text(event.name)),
-                  // children: event.tickets.asMap().entries.map((entry) {
-                  //   final index = entry.key;
-                  //   final ticket = entry.value;
-                  //   return Padding(
-                  //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  //       child: TicketInfo(
-                  //           index: index,
-                  //           ticketId: ticket.ticketId,
-                  //           fullName: ticket.fullName,
-                  //           scannedDate: ticket.scannedDate,
-                  //           scannedTime: ticket.scannedTime,
-                  //           amountPaid: ticket.amountPaid));
-                  // }).toList(),
+                      children: controller.associatedTickets.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final ticket = entry.value;
+                        return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: TicketInfo(
+                                index: index,
+                                ticketId: ticket.id.toString(),
+                                fullName: ticket.fullName.toString(),
+                                scannedTimestamp: ticket.createdAt.toString(),
+                                amountPaid: "1000 RWF"));
+                      }).toList(),
                 ),
               );
             },

@@ -8,37 +8,44 @@ class EventController extends GetxController {
   final RxList<Ticket> associatedTickets = <Ticket>[].obs;
 
   void loadEventAndTickets() {
-    final dynamic arguments = Get.arguments;
-  print("Arguments: $arguments"); // Check if you are receiving the arguments
+   final dynamic arguments = Get.arguments;
+   final dynamic eventMap = arguments['event'];
 
-  final dynamic eventMap = arguments['event'];
-  print("Event Map: $eventMap"); // Check if you are extracting the event data
-
-
-    // Fetch the selected event based on eventId (you need to implement this)
-    // For demonstration, let's assume a function getEventById(eventId)
     final Event? event = Get.arguments['event'];
     selectedEvent.value = event;
-
-    print("passed event ...");
-    print(event!.id);
-    print(event!.name);
-
-    // Fetch the associated tickets based on the event's ID (you need to implement this)
-    // For demonstration, let's assume a function getTicketsByEventId(eventId)
+   
     final List<Ticket> tickets = getTicketsByEventId(event!.id);
     associatedTickets.assignAll(tickets);
-     print("tickets associated");
-     print(tickets);
   }
 
-  List<Ticket> getTicketsByEventId(int eventId) {
-    final List<Ticket> allTickets = Storage.getValue("tickets") ?? <Ticket>[];
 
-    // Filter and return the tickets associated with the specified event ID
-   
-    return allTickets.where((ticket) => ticket.eventId == eventId).toList();
-  }
+List<Ticket> getTicketsByEventId(int eventId) {
+  final List<dynamic> dynamicTickets = Storage.getValue("tickets") ?? <Ticket>[];
+  final List<Ticket> tickets = dynamicTickets
+    .map((dynamic ticketData) {
+        return Ticket.fromJson(ticketData);
+    })
+    .where((ticket) => ticket != null) // Filter out null entries
+    .cast<Ticket>() // Cast to List<Ticket>
+    .toList();
+
+  List<Ticket> filteredTickets = tickets
+      .where((ticket) => ticket.eventId == eventId)
+      .cast<Ticket>()
+      .toList();
+
+  return filteredTickets;
+}
+
+
+
+//   List<Ticket>? getTicketsByEventId(int eventId) {
+//   final List allTickets = (Storage.getValue("tickets") as List<dynamic>)
+//       .map((dynamic ticketData) => Ticket.fromMap(ticketData))
+//       .toList();
+  
+//   return allTickets.where((ticket) => ticket.eventId == eventId).toList();
+// }
 
   
   @override

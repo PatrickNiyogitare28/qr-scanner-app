@@ -6,17 +6,23 @@ class TicketInfo extends GetView {
   final String ticketId;
   final String fullName;
   final String amountPaid;
-  final String scannedDate;
-  final String scannedTime;
-  TicketInfo(
-      {required this.index,
-      required this.ticketId,
-      required this.fullName,
-      required this.amountPaid,
-      required this.scannedDate,
-      required this.scannedTime});
+  final String scannedTimestamp;
+
+  TicketInfo({
+    required this.index,
+    required this.ticketId,
+    required this.fullName,
+    required this.amountPaid,
+    required this.scannedTimestamp,
+  });
+
   @override
   Widget build(BuildContext context) {
+    final dateAndTime = scannedTimestamp.split(' '); // Split the timestamp into date and time
+    final scannedDate = dateAndTime[0];
+    final scannedTime = dateAndTime[1];
+
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -82,6 +88,7 @@ class TicketInfo extends GetView {
     );
   }
 }
+
 
 class GreenCircle extends StatelessWidget {
   @override

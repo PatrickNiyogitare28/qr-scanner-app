@@ -31,6 +31,8 @@ class EventView extends GetView<EventController> {
 
     // Extract the event from the arguments
     final dynamic eventMap = arguments['event'];
+    print("in the controller again");
+    controller.loadEventAndTickets();
     // final event = Event.fromJson(eventMap);
 
     return Scaffold(
@@ -38,65 +40,71 @@ class EventView extends GetView<EventController> {
         onBackPress: () {
           Get.toNamed(Routes.HOME);
         },
-        title: 'Event',
+        title: controller.selectedEvent.value?.name,
         // title: event?.title ?? 'Event',
       ),
-      // body: Column(
-      //   children: [
-      //     const Padding(
-      //       padding: EdgeInsets.all(16),
-      //       child: CustomTextFieldWidget(
-      //         labelText: "Ticket Id, customer name ...",
-      //         autovalidateMode: AutovalidateMode.disabled,
-      //       ),
-      //     ),
-      //     const SizedBox(
-      //       height: 10,
-      //     ),
-      //     Expanded(
-      //       child: ListView.builder(
-      //         itemCount: event?.tickets.length ?? 0,
-      //         itemBuilder: (context, index) {
-      //           final ticket = event?.tickets[index];
-      //           return Slidable(
-      //             endActionPane: ActionPane(
-      //               motion: const ScrollMotion(),
-      //               dismissible: DismissiblePane(onDismissed: () {}),
-      //               children: const [
-      //                 SlidableAction(
-      //                   onPressed: null,
-      //                   backgroundColor: Color(0xFF7BC043),
-      //                   foregroundColor: Colors.white,
-      //                   icon: Icons.archive,
-      //                   label: 'Archive',
-      //                 ),
-      //                 SlidableAction(
-      //                   onPressed: null,
-      //                   backgroundColor: Color(0xFF0392CF),
-      //                   foregroundColor: Colors.white,
-      //                   icon: Icons.save,
-      //                   label: 'Save',
-      //                 ),
-      //               ],
-      //             ),
-      //             child: Padding(
-      //               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      //               child: TicketInfo(
-      //                 index: index,
-      //                 ticketId: ticket?.ticketId ?? '',
-      //                 fullName: ticket?.fullName ?? '',
-      //                 scannedDate: ticket?.scannedDate ?? '',
-      //                 scannedTime: ticket?.scannedTime ?? '',
-      //                 amountPaid: ticket?.amountPaid ?? '',
-      //               ),
-      //             ),
-      //           );
-      //         },
-      //       ),
-      //     ),
-      //   ],
-      // ),
-      body: Center(child: Text("Event page"),),
+      body: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: CustomTextFieldWidget(
+              labelText: "Ticket Id, customer name ...",
+              autovalidateMode: AutovalidateMode.disabled,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: 
+               (controller.associatedTickets.isEmpty) ? 
+              const Center(
+                  child: Text("No tickets"),
+                )
+              :
+              ListView.builder(
+              itemCount: controller.associatedTickets.value.length ?? 0,
+              itemBuilder: (context, index) {
+                final ticket = controller.associatedTickets.value[index];
+                return Slidable(
+                  endActionPane: ActionPane(
+                    motion: const ScrollMotion(),
+                    dismissible: DismissiblePane(onDismissed: () {}),
+                    children: const [
+                      SlidableAction(
+                        onPressed: null,
+                        backgroundColor: Color(0xFF7BC043),
+                        foregroundColor: Colors.white,
+                        icon: Icons.archive,
+                        label: 'Archive',
+                      ),
+                      SlidableAction(
+                        onPressed: null,
+                        backgroundColor: Color(0xFF0392CF),
+                        foregroundColor: Colors.white,
+                        icon: Icons.save,
+                        label: 'Save',
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: TicketInfo(
+                      index: index,
+                      ticketId: ticket.id.toString() ?? '',
+                      fullName: ticket?.fullName ?? '',
+                      scannedTimestamp: ticket?.createdAt.toString() ?? '',
+                      // scannedTime: "11: 00" ?? '',
+                      amountPaid: "1000 RWF" ?? '',
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+      // body: Center(child: Text("Event page"),),
     );
   }
 }

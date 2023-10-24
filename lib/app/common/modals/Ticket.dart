@@ -64,6 +64,35 @@ class Ticket {
     );
   }
 
+
+  factory Ticket.fromJson(Map<String, dynamic> map) {
+  return Ticket(
+    clientId: map['clientId'] ?? null,
+    companyName: map['companyName'] ?? null,
+    createdAt: (map['createdAt'] != null)
+        ? DateTime.parse(map['createdAt'] as String)
+        : null,
+    email: map['email'] ?? null,
+    eventId: map['eventId'] ?? 0,
+    firebaseSynced: map['firebaseSynced'] ?? false,
+    fullName: map['fullName'] ?? null,
+    id: map['id'] ?? 0,
+    isEmailSent: map['isEmailSent'] ?? false,
+    isSmsSent: map['isSmsSent'] ?? false,
+    phoneNumber: map['phoneNumber'] ?? null,
+    status: map['status'] ?? null,
+    ticketId: map['ticketId'] ?? null,
+    title: map['title'] ?? null,
+    transactionId: map['transactionId'] ?? 0,
+    updatedAt: (map['updatedAt'] != null)
+        ? DateTime.parse(map['updatedAt'] as String)
+        : null,
+    userId: map['userId'] ?? 0,
+    validity: map['validity'] ?? false,
+  );
+}
+
+
   Map<String, dynamic> toJson() {
     return {
       'clientId': clientId,
