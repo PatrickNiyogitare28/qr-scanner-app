@@ -18,7 +18,7 @@ class Ticket {
   final int? transactionId;
   final DateTime? updatedAt;
   final int? userId;
-  final bool? validity;
+  late final bool? validity;
 
   Ticket({
     required this.clientId,

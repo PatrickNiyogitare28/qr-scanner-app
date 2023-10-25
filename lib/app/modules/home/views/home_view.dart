@@ -20,9 +20,13 @@ class HomeView extends GetView<HomeController> {
     }
 
     return Scaffold(
-      appBar: CustomAppbarWidget(
-        addBackButton: false,
-        title: 'Events',
+      // appBar: CustomAppbarWidget(
+      //   addBackButton: false,
+      //   title: 'Events',
+      //   centerTitle: false,
+      // ),
+      appBar: AppBar(
+        title: Text("Events"),
         centerTitle: false,
       ),
       body: Column(children: [
