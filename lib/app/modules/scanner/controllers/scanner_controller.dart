@@ -42,27 +42,19 @@ class QRScannerController extends GetxController {
     }
   }
 
+ 
   void onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      // Handle the scanned QR code data here
-      checkTicketValidity(scanData.code as int);
-    });
-    isCameraRunning = true;
-    update(); // Notify GetX that the state has changed
-  }
+  this.controller = controller;
+  controller.scannedDataStream.listen((scanData) {
+    // Handle the scanned QR code data here
+    checkTicketValidity(scanData.code!);
+  });
+  isCameraRunning = true;
+  update(); // Notify GetX that the state has changed
+}
 
-  void checkTicketValidity(int scannedCode) {
-     final List<dynamic> dynamicTickets = Storage.getValue("tickets") ?? <Ticket>[];
-    final List<Ticket> tickets = dynamicTickets
-    .map((dynamic ticketData) {
-        return Ticket.fromJson(ticketData);
-    })
-    .where((ticket) => ticket != null) 
-    .cast<Ticket>() 
-    .toList();
-    
-    void checkTicketValidity(int scannedCode) {
+
+  void checkTicketValidity(String scannedCode) {
   final List<dynamic> dynamicTickets = Storage.getValue("tickets") ?? <Ticket>[];
   final List<Ticket> tickets = dynamicTickets
       .map((dynamic ticketData) {
@@ -82,7 +74,7 @@ class QRScannerController extends GetxController {
       eventId: -1,
       firebaseSynced: false,
       fullName: "",
-      id: -1,
+      id: "",
       isEmailSent: false,
       isSmsSent: false,
       phoneNumber: "",
@@ -128,7 +120,5 @@ class QRScannerController extends GetxController {
     );
   }
 }
-
    
-  }
 }

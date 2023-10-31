@@ -9,7 +9,7 @@ class SearchInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomTextFieldWidget(
-      labelText: "Search event name",
+      labelText: "Search here",
       autovalidateMode: AutovalidateMode.disabled,
       onChanged: (text) => onSearch(text), // Call onSearch when text changes
     );

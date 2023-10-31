@@ -5,6 +5,7 @@ import 'package:scan_app/app/common/modals/Event.dart';
 import 'package:scan_app/app/modules/event/controllers/event_controller.dart';
 import 'package:scan_app/app/modules/widgets/custom_appbar_widget.dart';
 import 'package:scan_app/app/modules/widgets/custom_text_field_widget.dart';
+import 'package:scan_app/app/modules/widgets/search_input.dart';
 import 'package:scan_app/app/modules/widgets/ticket_info.dart';
 import 'package:scan_app/app/routes/app_pages.dart';
 
@@ -31,26 +32,27 @@ class EventView extends GetView<EventController> {
 
     // Extract the event from the arguments
     final dynamic eventMap = arguments['event'];
-    print("in the controller again");
     controller.loadEventAndTickets();
     // final event = Event.fromJson(eventMap);
 
     return Scaffold(
       appBar: CustomAppbarWidget(
         onBackPress: () {
-          Get.toNamed(Routes.HOME);
+          // Get.toNamed(Routes.HOME);
+          Get.back();
         },
         title: controller.selectedEvent.value?.name,
         // title: event?.title ?? 'Event',
       ),
       body: Column(
         children: [
-          const Padding(
+           Padding(
             padding: EdgeInsets.all(16),
-            child: CustomTextFieldWidget(
-              labelText: "Ticket Id, customer name ...",
-              autovalidateMode: AutovalidateMode.disabled,
-            ),
+            // child: CustomTextFieldWidget(
+            //   labelText: "Ticket Id, customer name ...",
+            //   autovalidateMode: AutovalidateMode.disabled,
+            // ),
+            child: SearchInput(onSearch: controller.searchQuery),
           ),
           const SizedBox(
             height: 10,
@@ -62,8 +64,8 @@ class EventView extends GetView<EventController> {
                   child: Text("No tickets"),
                 )
               :
-              ListView.builder(
-              itemCount: controller.associatedTickets.value.length ?? 0,
+              Obx(() {return ListView.builder(
+              itemCount: controller.filteredTickets.value.length ?? 0,
               itemBuilder: (context, index) {
                 final ticket = controller.associatedTickets.value[index];
                 return Slidable(
@@ -100,7 +102,7 @@ class EventView extends GetView<EventController> {
                   ),
                 );
               },
-            ),
+            );})
           ),
         ],
       ),

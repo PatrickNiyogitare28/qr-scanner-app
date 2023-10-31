@@ -8,7 +8,7 @@ class Ticket {
   final int eventId;
   final bool? firebaseSynced;
   final String? fullName;
-  final int id;
+  final String id;
   final bool? isEmailSent;
   final bool? isSmsSent;
   final String? phoneNumber;
@@ -50,7 +50,7 @@ class Ticket {
       eventId: map['event_id'],
       firebaseSynced: map['firebase_synced'],
       fullName: map['full_name'],
-      id: map['id'],
+      id: map['id'].toString(),
       isEmailSent: map['is_email_sent'],
       isSmsSent: map['is_sms_sent'],
       phoneNumber: map['phone_number'],
@@ -76,7 +76,7 @@ class Ticket {
     eventId: map['eventId'] ?? 0,
     firebaseSynced: map['firebaseSynced'] ?? false,
     fullName: map['fullName'] ?? null,
-    id: map['id'] ?? 0,
+    id: map['id'] ?? '',
     isEmailSent: map['isEmailSent'] ?? false,
     isSmsSent: map['isSmsSent'] ?? false,
     phoneNumber: map['phoneNumber'] ?? null,
