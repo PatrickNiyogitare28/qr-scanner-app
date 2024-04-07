@@ -50,21 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA_aEQE3VGUM_VPdqt2R3kjWSQ-ILSpOPA',
-    appId: '1:353293206765:android:69fa959495690a96c1f8e4',
-    messagingSenderId: '353293206765',
-    projectId: 'bafana-app-test',
-    storageBucket: 'bafana-app-test.appspot.com',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA_aEQE3VGUM_VPdqt2R3kjWSQ-ILSpOPA',
-    appId: '1:353293206765:ios:14b666bdbf7d1547c1f8e4',
-    messagingSenderId: '353293206765',
-    projectId: 'bafana-app-test',
-    storageBucket: 'bafana-app-test.appspot.com',
-    // androidClientId: '85149721733-f810u9uunc3mgs229p576lulg05tigkj.apps.googleusercontent.com',
-    // iosClientId: '85149721733-oevehm7jh8q5h09svjn1aifh7gu3i6d8.apps.googleusercontent.com',
-    iosBundleId: 'io.bafana.scanapp',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
+    // androidClientId: '',
+    // iosClientId: '',
+    iosBundleId: '',
   );
 }
